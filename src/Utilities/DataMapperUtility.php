@@ -46,42 +46,7 @@ abstract class DataMapperUtility
       
       ObjectAccess::setProperty($object, $propertyName, $propertyValue);
     }
-    
-    /*
-    foreach($properties as $propertyName => $propertyValue) {
-      if($propertyName === '__identity') {
-        $propertyName = 'identity';
-      } 
-      
-      if(array_key_exists($propertyName, $this->mapping)) {
-        //$propertyValue = DataMapperUtility::map(
-        //  $this->mapping[$propertyName], 
-        //  $propertyValue
-        //);
-      }
-      
-      if( is_null($propertyValue) ) {
-        continue;
-      }
-      
-      ObjectAccess::setProperty($object, $propertyName, $propertyValue);
-    }
-    */
-    
-    /*
-    if( $type === \DateTime::class ) {
-      $propertyValue = DataMapperUtility::mapDateTime($propertyValue);      
-    } else if( $type === ArrayCollection::class ) {
-      // todo map to collection
-      $propertyValue = self::mapCollection('x', $type, $response);
-    } else {
-      // don't know / map type or try other object
-      $propertyValue = DataMapperUtility::mapType($type, $propertyValue);
-    }
-    
-    return $propertyValue;
-    */
-    
+        
     return $object;
   }
   

@@ -56,4 +56,21 @@ abstract class AbstractType
   {
     return $this->creationDate;
   }
+  
+  /**
+   * @param \DateTime $modificationDate
+   * @return void
+   */
+  public function setModificationDate(\DateTime $modificationDate) : void
+  {
+    $this->modificationDate = $modificationDate;
+  }
+  
+  /**
+   * @return \DateTime
+   */
+  public function getModificationDate() : \DateTime
+  {
+    return $this->modificationDate;
+  }
 }

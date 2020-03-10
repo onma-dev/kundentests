@@ -4,6 +4,7 @@ namespace Kundentests;
 
 use Kundentests\Exceptions\ClientRequestException;
 use Kundentests\Exceptions\InvalidJsonException;
+use Kundentests\Exceptions\InvalidSyntaxException;
 
 use GuzzleHttp\Client as HttpClient;
 use GuzzleHttp\Cookie\CookieJar;
@@ -34,7 +35,7 @@ class Client
   /**
    * @var string
    */
-  protected $endpoint = 'https://backend.dev.kundentests.com/api/';
+  protected $endpoint = 'https://backend.kundentests.com/api/';
   
   /**
    * @var string
@@ -65,7 +66,6 @@ class Client
     $this->cookieJar = new CookieJar();
     
     $this->client = new HttpClient([
-      'base_uri' => $this->endpoint,
       'timeout' => 10.0,
       'cookies' => $this->cookieJar,
       'allow_redirects' => false,
@@ -83,29 +83,24 @@ class Client
    */
   public function query(string $query, ?array $variables) : array
   {
-    try {
-      $response = $this->client->post($this->version, [
-        'auth' => [$this->username, $this->password],
-        'form_params' => [
-          'query' => $query,
-          'variables' => $variables
-        ]
-      ]);
-    } catch(ServerException $previous) {
-      throw new ClientRequestException('Failed to send request.', $previous);
-    }
-    
-    if($response->getStatusCode() !== 200) {      
-      throw new ClientRequestException('Invalid status code for request.');
-    }
-    
-    try {
-      $json = \GuzzleHttp\json_decode($response->getBody(), true);
-    } catch(InvalidArgumentException $previous) {
-      throw new InvalidJsonException('Failed to parse json result.', '1583835772', $previous);
-    }
-    
-    return isset($json['data']) ? $json['data'] : [];
+    return $this->request([
+      'query' => $query,
+      'variables' => $variables
+    ]);
+  }
+  
+  /**
+   * @param string $mutation
+   * @param array $variables
+   * @return array
+   * @throws ClientRequestException, InvalidJsonException
+   */
+  public function mutation(string $mutation, ?array $variables) : array
+  {
+    return $this->request([
+      'mutation' => $mutation,
+      'variables' => $variables
+    ]);
   }
   
   /**
@@ -118,13 +113,29 @@ class Client
   {
     $response = $this->query($query, $variables);
     
-    if(!isset($response['profiles']) || count($response['profiles']) <= 0) {
-      return new ArrayCollection();
-    } 
-    
     return DataMapperUtility::mapCollection(
       ProfileType::class,
-      $response['profiles']
+      current($response)
+    );
+  }
+  
+  /**
+   * @param string $query
+   * @param array $variables
+   * @return ProfileType|null
+   * @throws ClientRequestException, InvalidJsonException
+   */
+  public function profileMutation(string $query, ?array $variables) : ?ProfileType
+  {
+    $response = $this->query($query, $variables);
+    
+    if(count($response) <= 0) {
+      return null;
+    } 
+    
+    return DataMapperUtility::mapObject(
+      ProfileType::class,
+      current($response)
     );
   }
   
@@ -138,14 +149,52 @@ class Client
   {
     $response = $this->query($query, $variables);
     
-    if(!isset($response['orders']) || count($response['orders']) <= 0) {
-      return new ArrayCollection();
-    } 
-    
     return DataMapperUtility::mapCollection(
       OrderType::class,
-      $response['orders']
+      current($response)
     );
+  }
+  
+  /**
+   * @param array $params
+   * @return array
+   * @throws ClientRequestException, InvalidJsonException
+   */
+  protected function request(array $params) : array
+  {
+    try {
+      $response = $this->client->post($this->endpoint . $this->version, [
+        'auth' => [$this->username, $this->password],
+        'form_params' => $params
+      ]);
+    } catch(ServerException $previous) {
+      throw new ClientRequestException('Failed to send request.', $previous);
+    }
+    
+    if($response->getStatusCode() !== 200) {      
+      throw new ClientRequestException('Invalid status code for request.');
+    }
+    
+    try {
+      $json = \GuzzleHttp\json_decode($response->getBody(), true);
+    } catch(InvalidArgumentException $previous) {
+      throw new InvalidJsonException('Failed to parse json result.', 1583835772, $previous);
+    }
+    
+    if( isset($json['errors']) && count($json['errors']) > 0 ) {
+      $firstError = current($json['errors']);
+      $location = current($firstError['locations']);
+      throw new InvalidSyntaxException(
+        sprintf(
+          $firstError['message']. ' on line %d and column %d.', 
+          $location['line'], 
+          $location['column']
+        ),
+        1583835773
+      );
+    }
+    
+    return isset($json['data']) ? $json['data'] : [];
   }
     
   /**
