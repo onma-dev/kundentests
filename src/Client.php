@@ -87,20 +87,25 @@ class Client
       'query' => $query,
       'variables' => $variables
     ]);
-  }
-  
+  }  
   /**
-   * @param string $mutation
+   * @param string $query
    * @param array $variables
-   * @return array
+   * @return ProfileType
    * @throws ClientRequestException, InvalidJsonException
    */
-  public function mutation(string $mutation, ?array $variables) : array
+  public function profileQuery(string $query, ?array $variables) : ProfileType
   {
-    return $this->request([
-      'mutation' => $mutation,
-      'variables' => $variables
-    ]);
+    $response = $this->query($query, $variables);
+    
+    if(count($response) <= 0) {
+      return null;
+    } 
+    
+    return DataMapperUtility::mapObject(
+      ProfileType::class,
+      current($response)
+    );
   }
   
   /**
@@ -120,12 +125,23 @@ class Client
   }
   
   /**
-   * @param string $query
+   * @param string $mutation
    * @param array $variables
    * @return ProfileType|null
    * @throws ClientRequestException, InvalidJsonException
    */
-  public function profileMutation(string $query, ?array $variables) : ?ProfileType
+  public function profileMutation(string $mutation, ?array $variables) : ?ProfileType
+  {
+    return $this->profileQuery($mutation, $variables);
+  }  
+  
+  /**
+   * @param string $query
+   * @param array $variables
+   * @return ProfileType
+   * @throws ClientRequestException, InvalidJsonException
+   */
+  public function orderQuery(string $query, ?array $variables) : OrderType
   {
     $response = $this->query($query, $variables);
     
@@ -134,7 +150,7 @@ class Client
     } 
     
     return DataMapperUtility::mapObject(
-      ProfileType::class,
+      OrderType::class,
       current($response)
     );
   }
@@ -168,11 +184,11 @@ class Client
         'form_params' => $params
       ]);
     } catch(ServerException $previous) {
-      throw new ClientRequestException('Failed to send request.', $previous);
+      throw new ClientRequestException('Failed to send request.', 1583835770, $previous);
     }
     
     if($response->getStatusCode() !== 200) {      
-      throw new ClientRequestException('Invalid status code for request.');
+      throw new ClientRequestException('Invalid status code for request.', 1583835771);
     }
     
     try {
