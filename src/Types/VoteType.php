@@ -242,7 +242,7 @@ class VoteType extends AbstractType
    * @param float $totalRating
    * @return void
    */
-  public function setTotalRating(float $totalRating) : float
+  public function setTotalRating(float $totalRating) : void
   {
     $this->totalRating = $totalRating;
   }
