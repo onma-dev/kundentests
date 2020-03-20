@@ -62,6 +62,36 @@ class ProfileType extends AbstractType
   protected $lastReviewsInThisMonthReset;  
   
   /**
+   * @var int
+   */
+  protected $rank;
+  
+  /**
+   * @var float
+   */
+  protected $totalRating;
+  
+  /**
+   * @var int
+   */
+  protected $totalVotes;
+  
+  /**
+   * @var string
+   */
+  protected $publicUrl;
+  
+  /**
+   * @var string
+   */
+  protected $publicVoteUrl;
+  
+  /**
+   * @var string
+   */
+  protected $sealColor;
+  
+  /**
    * @var \Kundentests\Types\UserType
    */
   protected $user;
@@ -290,6 +320,108 @@ class ProfileType extends AbstractType
   public function getLastReviewsInThisMonthReset() : \DateTime
   {
     return $this->lastReviewsInThisMonthReset;
+  }
+  
+  /**
+   * @param int $rank
+   * @return void
+   */
+  public function setRank(int $rank) : void
+  {
+    $this->rank = $rank;
+  }
+  
+  /**
+   * @return int
+   */
+  public function getRank() : int
+  {
+    return $this->rank;
+  }
+  
+  /**
+   * @param float $totalRating
+   * @return void
+   */
+  public function setTotalRating(int $totalRating) : void
+  {
+    $this->totalRating = $totalRating;
+  }
+  
+  /**
+   * @return int
+   */
+  public function getTotalRating() : float
+  {
+    return $this->totalRating;
+  }
+  
+  /**
+   * @param int $totalVotes
+   * @return void
+   */
+  public function setTotalVotes(int $totalVotes) : void
+  {
+    $this->totalVotes = $totalVotes;
+  }
+  
+  /**
+   * @return int
+   */
+  public function getTotalVotes() : int
+  {
+    return $this->totalVotes;
+  }  
+  
+  /**
+   * @param string $publicUrl
+   * @return void
+   */
+  public function setPublicUrl(string $publicUrl) : void
+  {
+    $this->publicUrl = $publicUrl;
+  }
+  
+  /**
+   * @return string
+   */
+  public function getPublicUrl() : string
+  {
+    return $this->publicUrl;
+  } 
+  
+  /**
+   * @param string $publicVoteUrl
+   * @return void
+   */
+  public function setPublicVoteUrl(string $publicVoteUrl) : void
+  {
+    $this->publicVoteUrl = $publicVoteUrl;
+  }
+  
+  /**
+   * @return string
+   */
+  public function getPublicVoteUrl() : string
+  {
+    return $this->publicVoteUrl;
+  }
+  
+  /**
+   * @param string $sealColor
+   * @return void
+   */
+  public function setSealColor(string $sealColor) : void
+  {
+    $this->sealColor = $sealColor;
+  }
+  
+  /**
+   * @return string
+   */
+  public function getSealColor() : string
+  {
+    return $this->sealColor;
   }
   
   /**
