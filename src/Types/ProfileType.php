@@ -97,6 +97,15 @@ class ProfileType extends AbstractType
   protected $billing;
   
   /**
+   * 
+   */
+  public function __construct() 
+  {
+    $this->services = new ArrayCollection();
+    $this->votes = new ArrayCollection();
+  }
+  
+  /**
    * @param string $name
    * @return void
    */
