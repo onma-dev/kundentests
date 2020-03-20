@@ -102,9 +102,14 @@ class Client
       return null;
     } 
     
+    $profile = current($response);
+    
+    if(count($profile) <= 0) {
+      return null;
+    } 
+    
     return DataMapperUtility::mapObject(
-      ProfileType::class,
-      current($response)
+      ProfileType::class, $profile
     );
   }
   
@@ -149,9 +154,14 @@ class Client
       return null;
     } 
     
+    $order = current($response);
+    
+    if(count($order) <= 0) {
+      return null;
+    } 
+    
     return DataMapperUtility::mapObject(
-      OrderType::class,
-      current($response)
+      OrderType::class, $order
     );
   }
   
