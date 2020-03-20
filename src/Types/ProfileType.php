@@ -343,7 +343,7 @@ class ProfileType extends AbstractType
    * @param float $totalRating
    * @return void
    */
-  public function setTotalRating(int $totalRating) : void
+  public function setTotalRating(float $totalRating) : void
   {
     $this->totalRating = $totalRating;
   }
