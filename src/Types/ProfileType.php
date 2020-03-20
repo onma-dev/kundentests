@@ -75,6 +75,11 @@ class ProfileType extends AbstractType
    * @var \Doctrine\Common\Collections\ArrayCollection<\Kundentests\Types\ServiceType>
    */
   protected $services;
+  
+  /**
+   * @var \Doctrine\Common\Collections\ArrayCollection<\Kundentests\Types\VoteType>
+   */
+  protected $votes;
 
   /**
    * @var \Kundentests\Types\ResourceType
@@ -327,6 +332,23 @@ class ProfileType extends AbstractType
   public function getServices() : ArrayCollection
   {
     return $this->services;
+  }
+
+  /**
+   * @param ArrayCollection $votes
+   * @return void
+   */
+  public function setVotes(ArrayCollection $votes) : void
+  {
+    $this->votes = $votes;
+  }
+
+  /**
+   * @return ArrayCollection
+   */
+  public function getVotes() : ArrayCollection
+  {
+    return $this->votes;
   }
 
   /**
