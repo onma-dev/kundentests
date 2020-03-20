@@ -94,7 +94,7 @@ class Client
    * @return ProfileType
    * @throws ClientRequestException, InvalidJsonException
    */
-  public function profileQuery(string $query, ?array $variables) : ProfileType
+  public function profileQuery(string $query, ?array $variables) : ?ProfileType
   {
     $response = $this->query($query, $variables);
     
@@ -104,7 +104,7 @@ class Client
     
     $profile = current($response);
     
-    if(count($profile) <= 0) {
+    if(!is_array($profile) || count($profile) <= 0) {
       return null;
     } 
     
@@ -146,7 +146,7 @@ class Client
    * @return ProfileType
    * @throws ClientRequestException, InvalidJsonException
    */
-  public function orderQuery(string $query, ?array $variables) : OrderType
+  public function orderQuery(string $query, ?array $variables) : ?OrderType
   {
     $response = $this->query($query, $variables);
     
@@ -156,7 +156,7 @@ class Client
     
     $order = current($response);
     
-    if(count($order) <= 0) {
+    if(!is_array($order) || count($order) <= 0) {
       return null;
     } 
     
