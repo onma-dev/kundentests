@@ -90,7 +90,7 @@ class OrderType extends AbstractType
   /**
    * @return VoucherType
    */
-  public function getVoucher() : VoucherType
+  public function getVoucher() : ?VoucherType
   {
     return $this->voucher;
   }

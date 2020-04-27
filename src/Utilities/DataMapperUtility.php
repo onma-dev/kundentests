@@ -30,6 +30,10 @@ abstract class DataMapperUtility
       $propertyType = ReflectionUtility::getClassPropertyTypeByName($object, $propertyName);
       $propertyTypeInformation = TypeHandling::parseType($propertyType);
       
+      if( is_null($propertyValue) ) {
+        continue;
+      }
+      
       if(TypeHandling::isSimpleType($propertyTypeInformation['type'])) {
         // do nothing
       } else if(TypeHandling::isCollectionType($propertyTypeInformation['type'])) {
@@ -38,10 +42,6 @@ abstract class DataMapperUtility
         $propertyValue = DataMapperUtility::mapDateTime($propertyValue);              
       } else {
         $propertyValue = DataMapperUtility::mapObject($propertyTypeInformation['type'], $propertyValue);
-      }
-      
-      if( is_null($propertyValue) ) {
-        continue;
       }
       
       ObjectAccess::setProperty($object, $propertyName, $propertyValue);
