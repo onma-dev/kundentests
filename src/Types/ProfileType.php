@@ -57,6 +57,11 @@ class ProfileType extends AbstractType
   protected $agentursoftId;
   
   /**
+   * @var string
+   */
+  protected $agentursoftReference;
+  
+  /**
    * @var \DateTime
    */
   protected $lastReviewsInThisMonthReset;  
@@ -305,6 +310,23 @@ class ProfileType extends AbstractType
     return $this->agentursoftId;
   }
   
+  /**
+   * @param string $agentursoftReference
+   * @return void
+   */
+  public function setAgentursoftReference(string $agentursoftReference) : void
+  {
+    $this->agentursoftReference = $agentursoftReference;
+  }
+  
+  /**
+   * @return string
+   */
+  public function getAgentursoftReference() : int
+  {
+    return $this->agentursoftReference;
+  }
+    
   /**
    * @param \DateTime $lastReviewsInThisMonthReset
    * @return void

@@ -55,5 +55,7 @@ $orders = $client->ordersQuery($order_query, [
   'since' => '01.03.2020 11:48:0'
 ]);
 
-print_r($orders);
-
+$order = $orders->first();
+print_r($order);
+$voucher = $order->getVoucher();
+print_r($voucher);
