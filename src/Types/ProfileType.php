@@ -322,7 +322,7 @@ class ProfileType extends AbstractType
   /**
    * @return string
    */
-  public function getAgentursoftReference() : string
+  public function getAgentursoftReference() : ?string
   {
     return $this->agentursoftReference;
   }
