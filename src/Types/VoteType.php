@@ -77,7 +77,7 @@ class VoteType extends AbstractType
   /**
    * @return SourceType
    */
-  public function getReviewer() : ReviewerType
+  public function getReviewer() : ?ReviewerType
   {
     return $this->reviewer;
   }

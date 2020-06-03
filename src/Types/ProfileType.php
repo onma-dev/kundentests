@@ -526,7 +526,7 @@ class ProfileType extends AbstractType
   /**
    * @return ResourceType
    */
-  public function getLogo() : ResourceType
+  public function getLogo() : ?ResourceType
   {
     return $this->logo;
   }
