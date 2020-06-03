@@ -41,7 +41,7 @@ class ResourceType extends AbstractType
   /**
    * @return string
    */
-  public function getFile() : string
+  public function getFile() : ?string
   {
     return $this->file;
   }
