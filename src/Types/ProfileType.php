@@ -132,12 +132,18 @@ class ProfileType extends AbstractType
   protected $billing;
   
   /**
+   * @var \Doctrine\Common\Collections\ArrayCollection<\Kundentests\Types\QuestionnaireType>
+   */
+  protected $questionnaires;
+  
+  /**
    * 
    */
   public function __construct() 
   {
     $this->services = new ArrayCollection();
     $this->votes = new ArrayCollection();
+    $this->questionnaires = new ArrayCollection();
   }
   
   /**
@@ -565,4 +571,20 @@ class ProfileType extends AbstractType
     return $this->billing;
   }
 
+  /**
+   * @param ArrayCollection $questionnaires
+   * @return void
+   */
+  public function setQuestionnaires(ArrayCollection $questionnaires) : void
+  {
+    $this->questionnaires = $questionnaires;
+  }
+
+  /**
+   * @return ArrayCollection
+   */
+  public function getQuestionnaires() : ArrayCollection
+  {
+    return $this->questionnaires;
+  }
 }
