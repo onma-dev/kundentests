@@ -17,6 +17,7 @@ use Kundentests\Utilities\DataMapperUtility;
 
 use Kundentests\Types\ProfileType;
 use Kundentests\Types\OrderType;
+use Kundentests\Types\VoteType;
 
 
 class Client
@@ -180,6 +181,58 @@ class Client
       current($response)
     );
   }
+  
+  /**
+   * @param string $query
+   * @param array $variables
+   * @return VoteType
+   * @throws ClientRequestException, InvalidJsonException
+   */
+  public function voteQuery(string $query, ?array $variables) : ?VoteType
+  {
+    $response = $this->query($query, $variables);
+    
+    if(count($response) <= 0) {
+      return null;
+    } 
+    
+    $vote = current($response);
+    
+    if(!is_array($vote) || count($vote) <= 0) {
+      return null;
+    } 
+    
+    return DataMapperUtility::mapObject(
+      VoteType::class, $vote
+    );
+  }
+  
+  /**
+   * @param string $query
+   * @param array $variables
+   * @return ArrayCollection<VoteType>
+   * @throws ClientRequestException, InvalidJsonException
+   */
+  public function votesQuery(string $query, ?array $variables) : ArrayCollection
+  {
+    $response = $this->query($query, $variables);
+    
+    return DataMapperUtility::mapCollection(
+      VoteType::class,
+      current($response)
+    );
+  }
+  
+  /**
+   * @param string $mutation
+   * @param array $variables
+   * @return VoteType|null
+   * @throws ClientRequestException, InvalidJsonException
+   */
+  public function voteMutation(string $mutation, ?array $variables) : ?VoteType
+  {
+    return $this->voteQuery($mutation, $variables);
+  }  
   
   /**
    * @param array $params
