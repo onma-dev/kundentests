@@ -2,6 +2,8 @@
 
 namespace Kundentests\Types;
 
+use Doctrine\Common\Collections\ArrayCollection;
+
 class QuestionTopicType extends AbstractType
 {   
   /**
