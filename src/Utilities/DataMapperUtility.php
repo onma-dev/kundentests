@@ -28,6 +28,10 @@ abstract class DataMapperUtility
       }
       
       $propertyType = ReflectionUtility::getClassPropertyTypeByName($object, $propertyName);
+      if($propertyType === null || !is_string($propertyType)) {
+        continue;
+      }
+
       $propertyTypeInformation = TypeHandling::parseType($propertyType);
       
       if( is_null($propertyValue) ) {
