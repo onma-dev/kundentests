@@ -244,7 +244,7 @@ class Client
     try {
       $response = $this->client->post($this->endpoint . $this->version, [
         'auth' => [$this->username, $this->password],
-        'form_params' => $params
+        'json' => $params
       ]);
     } catch(ServerException $previous) {
       throw new ClientRequestException('Failed to send request.', 1583835770, $previous);
